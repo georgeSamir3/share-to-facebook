@@ -64,3 +64,24 @@ function Share({description}: ShareProps) {
 }
 
 export default Share;
+
+
+
+// open graph share
+// const shareOpenGraph = () => {
+//   if (isSDKLoaded && window.FB) {
+//     window.FB.ui(
+//       {
+//         display: "popup",
+//         method: "share_open_graph",
+//         action_type: "og.shares",
+//         action_properties: JSON.stringify({
+//           object: "https://www.facebook.com/WinFiCo",
+//         }),
+//       },
+//       function (response) {
+//         console.log("response from open graph",response);
+//       }
+//     );
+//   }
+// };

@@ -16,6 +16,8 @@ const FacebookShareButton = () => {
           xfbml: true,
           version: "v18.0",
         });
+        console.log("SDK loaded");
+
         setIsSDKLoaded(true); // SDK is loaded
       };
 

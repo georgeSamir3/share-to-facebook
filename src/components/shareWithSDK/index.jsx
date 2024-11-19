@@ -112,6 +112,7 @@ const FacebookShareButtonT = () => {
   }, []);
 
   const handleCallback = (response) => {
+    console.log("callback call");
     const timeElapsed = Date.now() - dialogOpenedAt.current;
 
     // Ignore callbacks that happen too quickly
@@ -134,7 +135,6 @@ const FacebookShareButtonT = () => {
 
   const handleShare = () => {
     if (isSDKLoaded && window.FB) {
-      // Record when the dialog is opened
       dialogOpenedAt.current = Date.now();
 
       window.FB.ui(
@@ -142,6 +142,7 @@ const FacebookShareButtonT = () => {
           method: "share",
           href: "https://www.facebook.com/official.oud",
           display: "popup",
+          redirect_uri:"https://www.youtube.com/?themeRefresh=1",
         },
         handleCallback
       );
@@ -149,21 +150,31 @@ const FacebookShareButtonT = () => {
       console.error("Facebook SDK not loaded");
     }
   };
-  const shareOpenGraph = () => {
+  
+  const handleFeedDialog = () => {
     if (isSDKLoaded && window.FB) {
       window.FB.ui(
         {
-          display: "popup",
-          method: "share_open_graph",
-          action_type: "og.shares",
-          action_properties: JSON.stringify({
-            object: "https://developers.facebook.com/docs/",
-          }),
+          method: "feed",
+          link: "https://www.facebook.com/official.oud", // The URL to share
+          // name: "Official Oud Page", // The title of the post
+          // caption: "www.officialoud.com", // Subtitle or brief description
+          // description: "Discover the finest Ouds on our official page!", // Detailed description
+          display: "popup", // Use "popup" to open in a modal
         },
         function (response) {
-          console.log("response from open graph",response);
+          if (response && !response.error_message) {
+            console.log("Content shared successfully");
+          } else {
+            console.error(
+              "Error sharing content:",
+              response.error_message || "No further details"
+            );
+          }
         }
       );
+    } else {
+      console.error("Facebook SDK not loaded");
     }
   };
 
@@ -187,24 +198,7 @@ const FacebookShareButtonT = () => {
       >
         Share on Facebook T2
       </div>
-      <div
-        style={{
-          // width: "350px",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-          height: "40px",
-          borderRadius: "10px",
-          backgroundColor: "#072051",
-          border: "1px solid grey",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          cursor: "pointer",
-        }}
-        onClick={shareOpenGraph}
-      >
-        Share open graph
-      </div>{" "}
+      
     </>
   );
 };
